@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { addNewPost } from './postsSlice'
 
 import { postAdded } from './postsSlice'
 
@@ -7,31 +8,41 @@ export const AddPostForm = () => {
 const [title, setTitle] = useState('')
 const [content, setContent] = useState('')
 const[userId, setUserId] = useState('')
+const [addRequestStatus, setAddRequestStatus] = useState('idle')
 
 const dispatch = useDispatch()
 
-const users = useSelector(state => state.users)
+const users = useSelector(state => state.user)
 
 const onTitleChanged = e => setTitle(e.target.value)
 const onContentChanged = e => setContent(e.target.value)
 const onAuthorChanged = e => setUserId(e.target.value)
 
-const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
+const canSave = [title, content, userId].every(Boolean) && addRequestStatus === 'idle'
 
-/*const usersOptions = users.map(user => (
+const usersOptions = users.map(user => (
     <option key={user.id} value={user.id}>
     {user.name}
     </option>
-))*/
+))
 
-console.log(users)
+//console.log(users)
 
-const onSavePostClicked = () => {
-    if (title && content) {
-        dispatch(postAdded(title, content, userId))
+const onSavePostClicked = async () => {
+    if (canSave) {
+
+        try{
+            setAddRequestStatus('pending')
+            await dispatch(addNewPost({title, content, user: userId})).unwrap()
+            setTitle('')
+            setContent('')
+            setUserId('')
+        }catch(e){
+            console.error('Failed to save the post: ', e)
+        }finally{
+            setAddRequestStatus('idle')
+        }
     
-    setTitle('')
-    setContent('')
     }
 }
 
@@ -50,7 +61,7 @@ return (
         <label htmlFor="postAuthor">Author:</label>
         <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
           <option value=""></option>
-          
+          {usersOptions}
         </select>
         <label htmlFor="postContent">Content:</label>
         <textarea
