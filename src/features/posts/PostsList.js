@@ -43,7 +43,7 @@ export const PostsList = () => {
     //.slice()
     //.sort((a, b) => b.date.localeCompare(a.date))
   console.log(posts)
-  /*
+  
   const renderedPosts = orderedPosts.map((post) => {
     return (
       <article className="post-excerpt" key={post.id}>
@@ -54,13 +54,13 @@ export const PostsList = () => {
         </div>
         <p className="post-content">{post.content.substring(0, 100)}</p>
 
-        {/*<ReactionButtons post={post} />
+        {/*<ReactionButtons post={post} />*/}
         <Link to={`/posts/${post.id}`} className="button muted-button">
           View Post
         </Link>
       </article>
     )
-  })*/  
+  })
 
   let content
 
@@ -82,8 +82,9 @@ export const PostsList = () => {
   return (
     <section className="posts-list">
       <h2>Posts</h2>
-  {/*renderedPosts*/}
+  {renderedPosts}
   {orderedPosts}
+  {content}
     </section>
   )
 }

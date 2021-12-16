@@ -64,7 +64,7 @@ reducers: {
          payload: {
          id: nanoid(),//nanoid will generate random things
          title,
-         content: 'Hello!',
+         content,
          date: sub(new Date(), { minutes: 10 }).toISOString()
       }
       }
