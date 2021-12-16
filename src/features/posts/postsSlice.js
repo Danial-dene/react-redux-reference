@@ -93,4 +93,3 @@ export default postsSlice.reducer
 export const selectAllPosts = state => state.post.posts
 export const selectPostById = (state, postId) => state.post.find(post => post.id === postId)
 
-console.log(selectAllPosts)
