@@ -29,6 +29,7 @@ function App() {
               
               <AddPostForm />
               <PostsList />
+              
               {/** <PostsList />*/}
               </React.Fragment>
             )}
